@@ -1,4 +1,8 @@
 Dice-iOS
 ========
 
-Video Processing for iOS devices
+DICE = Digital Instruments for Computed Expression
+
+-RosyWriter-Half-Color
+	A Video Process for iOS devices.
+	
