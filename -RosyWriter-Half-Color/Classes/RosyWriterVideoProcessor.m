@@ -55,7 +55,7 @@
 // AVCaptureDevicePositionBack
 
 // Not all theses preset will work for device. 
-#define CAPTURE_REZ		AVCaptureSessionPresetLow
+#define CAPTURE_REZ		AVCaptureSessionPresetHigh
 // AVCaptureSessionPresetHigh
 // AVCaptureSessionPresetLow
 // AVCaptureSessionPreset640x480
