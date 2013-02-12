@@ -1,7 +1,8 @@
 ### RosyWriter ###
 
 2012-02-11 jht: Modified for to do DICE color dance effect. Shared on github for Learning Creative Learning online course.
-
+				Modify RosyWriterVideoProcessor.m/processPixelBuffer for different effects
+				
 ===========================================================================
 DESCRIPTION:
 

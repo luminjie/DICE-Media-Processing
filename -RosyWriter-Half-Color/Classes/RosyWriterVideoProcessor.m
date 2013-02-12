@@ -1,4 +1,7 @@
 /*
+
+2012-02-11 jht: Effects code at processPixelBuffer
+
      File: RosyWriterVideoProcessor.m
  Abstract: The class that creates and manages the AV capture session and asset writer
   Version: 1.1
@@ -45,13 +48,14 @@
  
  */
 
-#define FULL_COLOR      1
+#define COLOR_DANCE		1
 
 #define CAMERA_POS		AVCaptureDevicePositionFront
 // AVCaptureDevicePositionFront
 // AVCaptureDevicePositionBack
 
-#define CAPTURE_REZ		AVCaptureSessionPresetiFrame1280x720
+// Not all theses preset will work for device. 
+#define CAPTURE_REZ		AVCaptureSessionPresetLow
 // AVCaptureSessionPresetHigh
 // AVCaptureSessionPresetLow
 // AVCaptureSessionPreset640x480
@@ -59,18 +63,18 @@
 // AVCaptureSessionPreset352x288;
 // AVCaptureSessionPreset640x480;
 
-#define BUILTIN_FILTER	0
-#define COLOR_DANCE		1
-#define GRAY_PROCESS	0
-
 #define bufferWidthDiv	2
 
 #define cycleStep		1
+
+#define BUILTIN_FILTER	0
+#define GRAY_PROCESS	0
 
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "RosyWriterVideoProcessor.h"
 
+// Rainbow color map
 static unsigned char color_map[256][4];
 static int cycleCount;
 
@@ -108,21 +112,13 @@ static int cycleCount;
         movieURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@%@", NSTemporaryDirectory(), @"Movie.MOV"]];
 
       	cicontext = [CIContext contextWithOptions: nil];
-#if 0
-					 cicontext = [CIContext contextWithOptions: 
-						[NSDictionary dictionaryWithObjectsAndKeys: 
-						 [NSNull null], kCIContextOutputColorSpace, 
-						 [NSNull null], kCIContextWorkingColorSpace, 
-						 nil]];
-#endif
-		//cicontext = [[CIContext contextWithOptions: [NSDictionary dictionary]] retain];
-		//CIImage *frameImage=[CIImage imageWithCVPixelBuffer:pixelBuffer options:[NSDictionary dictionaryWithObject:[NSNull null] forKey:kCIImageColorSpace]];
 	}
 
 	UIColor	*color;
 	CGFloat hue = 0;
 	CGFloat	red, green, blue, alpha;
 	
+	// Create a rainbow color map
 	for (int i = 0; i < 256; i++)
 	{
 		hue += 0.005;
@@ -144,6 +140,8 @@ static int cycleCount;
 #pragma mark Processing
 
 // ---------------------------------------------------------------------------------------------------------------------------
+// Update the pixels before after they are capture from camera
+//
 - (void)processPixelBuffer: (CVImageBufferRef)pixelBuffer
 {
 #if COLOR_DANCE
@@ -164,10 +162,12 @@ static int cycleCount;
 			// pixel[1] = 0; // De-green (second pixel in BGRA is green)
 			//pix = (pixel[0] + pixel[1] + pixel[2])/3;
             
+            // Map rgb pixel to gray 
 			pix = (pixel[0] + pixel[1] + pixel[2] ) / 3;
             
 			if (column < bufferWidthHalf )
 			{
+				// map gray pixel to next cycle in rainbow color map
 				pix += cycleCount;
 				pixel[0] = color_map[pix][0];
 				pixel[1] = color_map[pix][1];
@@ -176,6 +176,8 @@ static int cycleCount;
             
 			pixel += BYTES_PER_PIXEL;
 		}
+		// For some strange reason video is flipped horizontally when using front facing camera
+		// Compensate by flipping it back.
         pixel_row_end = (unsigned int *)(pixel - BYTES_PER_PIXEL);
         for (int column = 0; column < bufferWidthHalf; column++, pixel_row_end--, pixel_row_start++ )
         {

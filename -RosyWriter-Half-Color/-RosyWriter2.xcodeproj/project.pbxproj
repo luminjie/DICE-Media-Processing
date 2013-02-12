@@ -256,7 +256,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: John Henry Thompson (48H3ES45W7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -265,7 +265,7 @@
 				INFOPLIST_FILE = "RosyWriter-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = RosyF2L;
-				PROVISIONING_PROFILE = "6C23D08A-3DA6-4E3E-A1AD-4AC49D0A1200";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -274,14 +274,14 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: John Henry Thompson (48H3ES45W7)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RosyWriter_Prefix.pch;
 				INFOPLIST_FILE = "RosyWriter-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = RosyF2L;
-				PROVISIONING_PROFILE = "6C23D08A-3DA6-4E3E-A1AD-4AC49D0A1200";
+				PROVISIONING_PROFILE = "";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
